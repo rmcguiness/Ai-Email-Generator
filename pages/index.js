@@ -5,69 +5,45 @@ import {IoIosPaper} from 'react-icons/io';
 
 export default function Home() {
   const [topic, setTopic] = useState("");
-  const [objective, setObjective] = useState("");
-  const [wordCount, setWordCount] = useState("");
-  const [pageCount, setPageCount] = useState("");
-  const [isAcademic, setIsAcademic] = useState(false);
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
     event.preventDefault();
-    // const response = await fetch("/api/generate", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ params: animalInput }),
-    // });
-    // const data = await response.json();
-    setResult("");
+    setResult();
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ params: topic }),
+    });
+    const data = await response.json();
+    console.log(data.result)
+    setResult(data.result);
     setTopic("");
   }
 
   return (
     <div>
       <Head>
-        <title>Auto Essay</title>
+        <title>How To</title>
         <link rel="icon" href="/newspaper-outline.svg"/>
       </Head>
 
       <main className={styles.main}>
-        <IoIosPaper size={100}/>
-        <h3>Essay Generator</h3>
+        <IoIosPaper size={50}/>
+        <h1>How To</h1>
+        <h4>Returns a detailed list on how to do ANYTHING</h4>
+        {/* <p>thats rated PG-13</p> */}
         <form onSubmit={onSubmit}>
-          {/* <label>
-            Formal paper
-            <input 
-              type="checkbox"
-              name="isAcademic"
-              value={isAcademic}
-              onClick={(e)=>setIsAcademic(!e.target.value)}
+            <input
+              type="text"
+              name="topic"
+              placeholder="Solve a quadratic equation"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
             />
-          </label> */}
-          <input
-            type="text"
-            name="topic"
-            placeholder="Enter Topic"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-          />
-          <input
-            type="text"
-            name="objective"
-            placeholder="Enter Objective of Paper"
-            value={objective}
-            onChange={(e) => setObjective(e.target.value)}
-          />
-          <input
-            type="text"
-            name="pages"
-            placeholder="Number of Pages"
-            value={pageCount}
-            onChange={(e) => setPageCount(e.target.value)}
-          />
-
-          <input type="submit" value="Generate Essay" />
+          <input type="submit" value="Generate Answer" />
         </form>
         <div className={styles.result}>{result}</div>
       </main>

@@ -9,22 +9,13 @@ export default async function (req, res) {
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: generatePrompt(req.body.params),
-    temperature: 0.6,
+    temperature: 0.0,
     max_tokens: 100,
-
   });
   res.status(200).json({ result: completion.data.choices[0].text });
 }
 
-function generatePrompt({prompt}) {
-  const params = [
-    subject => '',
-    pages => '',
-    words => '',
-    paragraphs => '',
-    conclusion => '',
-    compareTo => '',
-  ];
-
-  return `Generate a ${params['pages']} page essay with ${params['paragraphs']} paragraphs on ${params['subject']} `;
+function generatePrompt(prompt) {
+  console.log(prompt);
+  return `Give a comprehensive and detailed list on how to ${prompt}:`;
 }
